@@ -14,10 +14,10 @@ RUN pip install -r requirements.txt
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY ./src .
-COPY ./data .
+COPY ./data ./data
 
 # Expose the port Streamlit runs on
 EXPOSE 8501
 
 # Run Streamlit on container startup
-CMD ["streamlit", "run", "streamlit_app.py"]
+CMD streamlit run streamlit_app.py --server.port=8501 --browser.serverAddress="0.0.0.0"
