@@ -29,6 +29,7 @@ steps:
       - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
       - >-
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID
+      - '--region=$_DEPLOY_REGION'
       - '--port'
       - '8501'
       - '--quiet'
@@ -41,6 +42,7 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _PLATFORM: managed
+  _DEPLOY_REGION: us-central1
   _SERVICE_NAME: streamlit-dataquality-dashboard
   _GCR_HOSTNAME: us.gcr.io
 
