@@ -97,5 +97,6 @@ def dashboard_main():
     st.subheader("DQ Score Trend")
     filtered_df['month'] = filtered_df['Check Run Date'].dt.to_period('M')
     monthly_scores = filtered_df.groupby('month').apply(lambda x: np.random.randint(50, 100)) # Replace with real calculation
+    st.write(monthly_scores)
     st.line_chart(monthly_scores)
 
