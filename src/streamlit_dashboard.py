@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import datetime
+import matplotlib.pyplot as plt
+import random
 
 # Load the CSV data
 @st.cache_data
@@ -28,6 +30,39 @@ def calculate_dq_scores(data):
 
 # Path to your CSV file
 file_path = './data/data_quality_checks_results.csv'
+
+def create_time_series(start=50, end=100):
+    # Generate a random walk series
+    ts = [random.randint(start, end) for _ in range(12)]
+    return ts
+
+# Function to generate random stats for the dashboard components
+def generate_random_stats():
+    stats = {
+        "Overall DQ Score": random.randint(0, 100),
+        "Total Rows Processed": random.randint(100000, 1000000),
+        "Failed Rows": random.randint(1000, 50000),
+        "Completeness": random.randint(0, 100),
+        "Timeliness": random.randint(0, 100),
+        "Validity": random.randint(0, 100),
+        "Accuracy": random.randint(0, 100),
+        "Consistency": random.randint(0, 100),
+        "Uniqueness": random.randint(0, 100)
+    }
+    return stats
+
+# Function to plot the time series for the dashboard
+def plot_time_series(data):
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    plt.figure(figsize=(10, 5))
+    plt.plot(months, data, marker='o')
+    plt.title('Overall DQ Score - Last 12 Months')
+    plt.ylim(0, 100)
+    plt.ylabel('Score')
+    plt.grid(True)
+    plt.tight_layout()
+    return plt
+
 
 def dashboard_main():
     # Load data
@@ -95,8 +130,6 @@ def dashboard_main():
 
     # Historical DQ Score Trend
     st.subheader("DQ Score Trend")
-    filtered_df['month'] = filtered_df['Check Run Date'].dt.to_period('M')
-    monthly_scores = filtered_df.groupby('month').apply(lambda x: np.random.randint(50, 100)) # Replace with real calculation
-    st.write(monthly_scores)
-    st.line_chart(monthly_scores)
+    time_series_data = create_time_series()
+    st.pyplot(plot_time_series(time_series_data))
 
